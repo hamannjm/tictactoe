@@ -14,20 +14,20 @@ class GameTile internal constructor(val x: Int, val y: Int) {
         }
 
     private var callback: TileCallback? = null
-    val hasCallback: Boolean
+    internal val hasCallback: Boolean
         get() {
             return callback != null
         }
 
-    fun addCallback(callback: TileCallback) {
+    internal fun addCallback(callback: TileCallback) {
         this.callback = callback
     }
 
-    fun removeCallback() {
+    internal fun removeCallback() {
         this.callback = null
     }
 
-    interface TileCallback {
+    internal interface TileCallback {
         fun onTileStateChanged(x: Int, y: Int, state: TileState)
     }
 }

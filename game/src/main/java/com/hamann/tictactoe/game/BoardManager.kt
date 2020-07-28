@@ -5,10 +5,9 @@ import com.hamann.tictactoe.game.tile.TileState
 
 class BoardManager {
 
-    internal var board: Array<Array<GameTile>> = getNewBoard()
+    var board: Array<Array<GameTile>> = getNewBoard()
         private set
     private var callback: BoardStateCallback? = null
-
 
     init {
     }
@@ -27,11 +26,11 @@ class BoardManager {
         }
     }
 
-    fun markTile(x: Int, y: Int, player: GameManager.Player) {
+    internal fun markTile(x: Int, y: Int, player: GameManager.Player) {
         board[x][y].state = TileState.fromPlayer(player)
     }
 
-    fun addCallback(callback: BoardStateCallback) {
+    internal fun addCallback(callback: BoardStateCallback) {
         this.callback = callback
     }
 
@@ -39,7 +38,7 @@ class BoardManager {
 //    1,0 1,1 1,2
 //    2,0 2,1 2,2
 
-    fun reviewBoardState(x: Int, y: Int, state: TileState) {
+    private fun reviewBoardState(x: Int, y: Int, state: TileState) {
 
     }
 
