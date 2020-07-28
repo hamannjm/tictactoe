@@ -3,7 +3,7 @@ package com.hamann.tictactoe.game.helpers
 import com.hamann.tictactoe.game.BoardManager
 import com.hamann.tictactoe.game.GameBoard
 import com.hamann.tictactoe.game.GameManager
-import com.hamann.tictactoe.game.tile.GameTile
+import com.hamann.tictactoe.game.extensions.isWinner
 import com.hamann.tictactoe.game.tile.TileState
 
 object BoardHelper {
@@ -23,29 +23,30 @@ object BoardHelper {
             throw Throwable("Invalid value for parameter: state")
         }
         //check row
-        for (i in BoardManager.X_ORIGIN until BoardManager.BOARD_WIDTH) {
-            if (board.at(i, y).state != state) {
-                break
+        return when {
+            board.getRow(y).isWinner(state) -> {
+                Winner(BoardManager.X_ORIGIN, y, MAX_WIDTH_INDEX, y, GameManager.Player.fromState(state))
             }
-            if (i == MAX_WIDTH_INDEX) {
-                return Winner(BoardManager.X_ORIGIN, y, MAX_WIDTH_INDEX, y, GameManager.Player.fromState(state))
+            board.getColumn(x).isWinner(state) -> {
+                Winner(x, BoardManager.Y_ORIGIN, x, MAX_HEIGHT_INDEX, GameManager.Player.fromState(state))
+            }
+            needToCheckDiagonals(x, y) -> {
+                when {
+                    board.getDiagonal().isWinner(state) -> {
+                        Winner(BoardManager.X_ORIGIN, BoardManager.Y_ORIGIN, MAX_WIDTH_INDEX, MAX_HEIGHT_INDEX, GameManager.Player.fromState(state))
+                    }
+                    board.getReverseDiagonal().isWinner(state) -> {
+                        Winner(MAX_WIDTH_INDEX, BoardManager.Y_ORIGIN, BoardManager.X_ORIGIN, MAX_HEIGHT_INDEX, GameManager.Player.fromState(state))
+                    }
+                    else -> {
+                        null
+                    }
+                }
+            }
+            else -> {
+                null
             }
         }
-        //check column
-        for (i in BoardManager.Y_ORIGIN until BoardManager.BOARD_HEIGHT) {
-            if (board.at(x, i).state != state) {
-                break
-            }
-            if (i == MAX_HEIGHT_INDEX) {
-                return Winner(x, BoardManager.Y_ORIGIN, x, MAX_HEIGHT_INDEX, GameManager.Player.fromState(state))
-            }
-        }
-        //check diagonals if needed
-        if (needToCheckDiagonals(x, y)) {
-
-        }
-
-        return null
     }
 
 //    0,0 0,1 0,2

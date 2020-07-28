@@ -1,7 +1,6 @@
 package com.hamann.tictactoe.game
 
 import com.hamann.tictactoe.game.tile.GameTile
-import com.hamann.tictactoe.game.tile.TileState
 
 class GameBoard {
     private val board = Array(BoardManager.BOARD_HEIGHT) { y ->
@@ -22,5 +21,21 @@ class GameBoard {
 
     fun getRow(index: Int): Array<GameTile> {
         return board[index]
+    }
+
+    fun getDiagonal(): Array<GameTile> {
+        return arrayOf(
+            at(0, 0),
+            at(1, 1),
+            at(2, 2)
+        )
+    }
+
+    fun getReverseDiagonal(): Array<GameTile> {
+        return arrayOf(
+            at(2,0),
+            at(1,1),
+            at(0,2)
+        )
     }
 }
